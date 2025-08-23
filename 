@@ -6,6 +6,7 @@
 
 
 <script>
+    required: true
 import HelloWorld from './components/HelloWorld.vue'
 
 export default {
