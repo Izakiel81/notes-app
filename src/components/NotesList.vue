@@ -1,8 +1,8 @@
 <script setup >
   import NoteItem from './NoteItem.vue';
-  import { ref } from 'vue';
+  import { defineProps } from 'vue';
   
-  const notes = ref([{ id: 0, title: 'Sample Note', content: 'This is a sample note.' }]);
+  defineProps({notes: Array});
 
 </script>
 

@@ -18,8 +18,9 @@ export default {
       isAddingNote.value = !isAddingNote.value;
     }
     
-    function addNote({title, cintent}){
-      notes.value.push({id: notes.value.length + 1, title, cintent});
+    function addNote({title, content}){
+      notes.value.push({id: notes.value.length + 1, title, content});
+      console.log(notes.value);
       isAddingNote.value = false;
     }
 
@@ -44,7 +45,7 @@ export default {
 	}" 
 	@cancel="toggleAddingNote"
 	/>
-    <NotesList/>
+    <NotesList :notes="notes"/>
   </div>
 </template>
 
