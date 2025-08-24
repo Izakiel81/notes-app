@@ -10,12 +10,14 @@ export default {
   setup() {
 
     const isAddingNote = ref(false);
+    const newNoteTitle = ref('');
+    const newNoteContent = ref('');
 
     function toggleAddingNote() {
       isAddingNote.value = !isAddingNote.value;
     }
 
-    return { isAddingNote, toggleAddingNote};
+    return { isAddingNote, newNoteTitle, newNoteContent, toggleAddingNote};
 
   }
 }
@@ -23,12 +25,13 @@ export default {
 
 <template>
   <div id="app">
-    <button @click="toggleAddingNote" class="add-note">+</button> 
-    <form v-if="isAddingNote">
-	<input/>	
-	<textarea/>	
-	<button >Add Note</button>
-    </form>
+    <button 
+     @click="toggleAddingNote" 
+     class="add-note"
+     :class="{'rotated': isAddingNote}">
+       +
+     </button> 
+    
     <NotesList/>
   </div>
 </template>
@@ -39,6 +42,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+}
+.rotated {
+  transform: rotate(45deg);
 }
 .add-note {
   width: 40px;
@@ -51,6 +57,7 @@ export default {
   border: none;
   border-radius: 50%; 
   cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
 
 </style>
