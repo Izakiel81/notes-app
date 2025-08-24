@@ -1,11 +1,13 @@
 <script>
 import NotesList from './components/NotesList.vue';
+import NoteAddDialog from './components/NoteAddDialog.vue';
 import { ref } from 'vue';
 
 export default {
   name: 'App', 
   components: {
-    NotesList
+    NotesList,
+    NoteAddDialog
   },
   setup() {
 
@@ -31,7 +33,11 @@ export default {
      :class="{'rotated': isAddingNote}">
        +
      </button> 
-    
+      <NoteAddDialog 
+	v-if="isAddingNote"
+	@add-note="toggleAddingNote" 
+	@cancel="toggleAddingNote"
+	/>
     <NotesList/>
   </div>
 </template>
