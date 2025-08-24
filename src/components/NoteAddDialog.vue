@@ -16,6 +16,11 @@
     newNoteTitle.value = '';
     newNoteContent.value = ''; 
   }
+  function cancel() {
+    emit('cancel');
+    newNoteTitle.value = '';
+    newNoteContent.value = ''; 
+  }
 
 </script>
 <template>
@@ -69,12 +74,18 @@
   font-weight: 600;
 }
 .note-form input, .note-form textarea {
+  outline: none;
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
   margin-bottom: 15px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.note-form input:focus, .note-form textarea:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 .note-form textarea {
   resize: vertical;
@@ -92,6 +103,13 @@
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+}
+.note-form button:hover {
+  opacity: 0.9;
+}
+.note-form button:active {
+  transform: scale(0.98);
 }
 .note-form #add {
   background-color: #28a745;

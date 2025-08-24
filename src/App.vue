@@ -12,14 +12,18 @@ export default {
   setup() {
 
     const isAddingNote = ref(false);
-    const newNoteTitle = ref('');
-    const newNoteContent = ref('');
+    const notes = ref([]);
 
     function toggleAddingNote() {
       isAddingNote.value = !isAddingNote.value;
     }
+    
+    function addNote({title, cintent}){
+      notes.value.push({id: notes.value.length + 1, title, cintent});
+      isAddingNote.value = false;
+    }
 
-    return { isAddingNote, newNoteTitle, newNoteContent, toggleAddingNote};
+    return { isAddingNote, notes, addNote, toggleAddingNote};
 
   }
 }
@@ -35,7 +39,9 @@ export default {
      </button> 
       <NoteAddDialog 
 	v-if="isAddingNote"
-	@add-note="toggleAddingNote" 
+	@add-note="(note) => {
+          addNote({title: note.title, content: note.content});
+	}" 
 	@cancel="toggleAddingNote"
 	/>
     <NotesList/>
