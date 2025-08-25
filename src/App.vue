@@ -1,51 +1,52 @@
 <script>
-import NotesList from './components/NotesList.vue';
-import NoteAddDialog from './components/NoteAddDialog.vue';
-import { ref } from 'vue';
+import NotesList from "./components/NotesList.vue";
+import NoteAddDialog from "./components/NoteAddDialog.vue";
+import { ref } from "vue";
 
 export default {
-  name: 'App', 
+  name: "App",
   components: {
     NotesList,
-    NoteAddDialog
+    NoteAddDialog,
   },
   setup() {
-
     const isAddingNote = ref(false);
-    const notes = ref([]);
+    const notes = ref(JSON.parse(localStorage.getItem("notes")) ?? []);
 
     function toggleAddingNote() {
       isAddingNote.value = !isAddingNote.value;
     }
-    
-    function addNote({title, content}){
-      notes.value.push({id: notes.value.length + 1, title, content});
-      console.log(notes.value);
+
+    function addNote({ title, content }) {
+      notes.value.push({ id: notes.value.length + 1, title, content });
+      localStorage.setItem("notes", JSON.stringify(notes.value));
       isAddingNote.value = false;
     }
 
-    return { isAddingNote, notes, addNote, toggleAddingNote};
-
-  }
-}
+    return { isAddingNote, notes, addNote, toggleAddingNote };
+  },
+};
 </script>
 
 <template>
   <div id="app">
-    <button 
-     @click="toggleAddingNote" 
-     class="add-note"
-     :class="{'rotated': isAddingNote}">
-       +
-     </button> 
-      <NoteAddDialog 
-	v-if="isAddingNote"
-	@add-note="(note) => {
-          addNote({title: note.title, content: note.content});
-	}" 
-	@cancel="toggleAddingNote"
-	/>
-    <NotesList :notes="notes"/>
+    <button
+      @click="toggleAddingNote"
+      class="add-note"
+      :class="{ rotated: isAddingNote }"
+    >
+      +
+    </button>
+    <NoteAddDialog
+      v-if="isAddingNote"
+      @add-note="
+        (note) => {
+          addNote({ title: note.title, content: note.content });
+        }
+      "
+      @cancel="toggleAddingNote"
+    />
+    <NotesList :notes="notes" />
   </div>
 </template>
 
@@ -68,9 +69,8 @@ export default {
   background-color: #28a745;
   color: white;
   border: none;
-  border-radius: 50%; 
+  border-radius: 50%;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
 }
-
 </style>
