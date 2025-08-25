@@ -12,7 +12,6 @@ console.log(note.value);
 const emit = defineEmits(["edit-note", "delete-note"]);
 
 emit("edit-note", { id: note.value.id, title: note.value.title, content: note.value.content });
-emit("delete-note", note.value.id);
 </script>
 <template>
   <div class="note-item">
@@ -32,7 +31,7 @@ emit("delete-note", note.value.id);
         />
       </svg>
     </span>
-    <span>
+    <span @click="$emit('delete-note', note)">
       <svg
         viewBox="0 0 24 24"
         fill="none"

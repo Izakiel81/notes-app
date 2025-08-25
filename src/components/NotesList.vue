@@ -1,20 +1,18 @@
 <script setup>
 import NoteItem from "./NoteItem.vue";
-import { defineProps, toRefs } from "vue";
+import { defineProps, toRefs, ref } from "vue";
 
 const props = defineProps({ notes: Array });
 const { notes } = toRefs(props);
-
+const localNotes = ref(notes.value);
 function deleteNote(id) {
-  localStorage.setItem(
-    "notes",
-    JSON.stringify(notes.value.filter((note) => note.id !== id))
-  );
+  localNotes.value = localNotes.value.filter((note) => note.id !== id);
+  localStorage.setItem("notes", JSON.stringify(localNotes.value));
 }
-</script>
 
+</script>
 <template>
-  <div v-for="note in notes" :key="note.id">
+  <div v-for="note in localNotes" :key="note.id">
     <NoteItem :note="note" @delete-note="(note) => deleteNote(note.id)" />
   </div>
 </template>
