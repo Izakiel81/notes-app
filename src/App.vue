@@ -1,13 +1,13 @@
 <script>
 import NotesList from "./components/NotesList.vue";
-import NoteAddDialog from "./components/NoteAddDialog.vue";
+import NoteDialog from "./components/NoteDialog.vue";
 import { ref } from "vue";
 
 export default {
   name: "App",
   components: {
     NotesList,
-    NoteAddDialog,
+    NoteDialog,
   },
   setup() {
     const isAddingNote = ref(false);
@@ -37,7 +37,7 @@ export default {
     >
       +
     </button>
-    <NoteAddDialog
+    <NoteDialog
       v-if="isAddingNote"
       @add-note="
         (note) => {

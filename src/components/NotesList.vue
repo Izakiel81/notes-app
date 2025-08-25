@@ -5,6 +5,10 @@ import { defineProps, toRefs, ref } from "vue";
 const props = defineProps({ notes: Array });
 const { notes } = toRefs(props);
 const localNotes = ref(notes.value);
+
+const isDeleting = ref(false);
+const isEditing = ref(false);
+
 function deleteNote(id) {
   localNotes.value = localNotes.value.filter((note) => note.id !== id);
   localStorage.setItem("notes", JSON.stringify(localNotes.value));
