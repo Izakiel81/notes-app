@@ -1,54 +1,53 @@
 <script setup>
-  
-  import { ref, toRefs, defineEmits, defineProps } from 'vue';
-  const props = defineProps({
-     note: {
-       id: Number,
-       title: String,
-       content: String,
-     },  
+import { ref, toRefs, defineEmits, defineProps } from "vue";
+const props = defineProps({
+  note: {
+    id: Number,
+    title: String,
+    content: String,
+  },
+});
+const emit = defineEmits(["add-note", "edit-note", "cancel"]);
+const { note } = toRefs(props);
+
+const newNoteTitle = ref(note.value.title ?? "");
+const newNoteContent = ref(note.value.content ?? "");
+
+function addChangeNote() {
+  if (!newNoteTitle.value.trim() || !newNoteContent.value.trim()) return;
+
+  emit(`${note.value.id ? "edit-note" : "add-note"}`, {
+    id: note.value.id ?? null,
+    title: newNoteTitle.value,
+    content: newNoteContent.value,
   });
-  const emit = defineEmits(['add-note', 'edit-note', 'cancel']);
-  const { note } = toRefs(props);
-
-  const newNoteTitle = ref(note.value.title ?? '');
-  const newNoteContent = ref(note.value.content ?? '');
-
-  function addChangeNote() {
-    if (!newNoteTitle.value.trim() || !newNoteContent.value.trim()) return;
-
-    emit(`${note.value.id ? 'edit-note' : 'add-note'}`, {
-      id: note.value.id ?? null,
-      title:newNoteTitle.value,
-      content:newNoteContent.value
-    });
-    newNoteTitle.value = '';
-    newNoteContent.value = ''; 
-  }
-  function cancel() {
-    emit('cancel');
-    newNoteTitle.value = '';
-    newNoteContent.value = ''; 
-  }
-
+  newNoteTitle.value = "";
+  newNoteContent.value = "";
+}
+function cancel() {
+  emit("cancel");
+  newNoteTitle.value = "";
+  newNoteContent.value = "";
+}
 </script>
 <template>
-   <span class="overlay"></span>
-   <div class="dialog">
-    <slot><form @submit.prevent="addChangeNote" class="note-form"> 
-     <label>Title:</label>
-     <input v-model="newNoteTitle" />	
+  <span class="overlay"></span>
+  <div class="dialog">
+    <slot
+      ><form @submit.prevent="addChangeNote" class="note-form">
+        <label>Title:</label>
+        <input v-model="newNoteTitle" />
 
-     <label>Note:</label>
-     <textarea v-model="newNoteContent" />	
-      
-     <div class="buttons">
-        <button id="add">{{note.id ? "Edit" : "Add"}} Note</button>
-       <button id="cancel" @click="cancel">Cancel</button>
-     </div>
-    </form>
-      </slot>
-   </div>
+        <label>Note:</label>
+        <textarea v-model="newNoteContent" />
+
+        <div class="buttons">
+          <button id="add">{{ note.id ? "Edit" : "Add" }} Note</button>
+          <button id="cancel" @click="cancel">Cancel</button>
+        </div>
+      </form>
+    </slot>
+  </div>
 </template>
 <style scoped>
 .overlay {
@@ -83,7 +82,8 @@
   margin-bottom: 5px;
   font-weight: 600;
 }
-.note-form input, .note-form textarea {
+.note-form input,
+.note-form textarea {
   outline: none;
   width: 100%;
   padding: 10px;
@@ -93,8 +93,9 @@
   margin-bottom: 15px;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
-.note-form input:focus, .note-form textarea:focus {
-  border-color: #007BFF;
+.note-form input:focus,
+.note-form textarea:focus {
+  border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 .note-form textarea {
@@ -128,4 +129,3 @@
   background-color: #dc3545;
 }
 </style>
-
