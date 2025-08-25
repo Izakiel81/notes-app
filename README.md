@@ -30,4 +30,4 @@ Simple state management
 
 Vue 3 (Composition API)
 
-Vite (bundler & dev server)
+Vue CLI (bundler & dev server)
