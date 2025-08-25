@@ -1,12 +1,18 @@
 <script setup>
-import { defineProps } from "vue";
-defineProps({
+import { defineProps, defineEmits, toRefs } from "vue";
+const props = defineProps({
   note: {
     id: Number,
     title: String,
     content: String,
   },
 });
+const { note } = toRefs(props);
+console.log(note.value);  
+const emit = defineEmits(["edit-note", "delete-note"]);
+
+emit("edit-note", { id: note.value.id, title: note.value.title, content: note.value.content });
+emit("delete-note", note.value.id);
 </script>
 <template>
   <div class="note-item">
