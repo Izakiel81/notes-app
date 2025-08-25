@@ -1,5 +1,6 @@
 <script setup>
-import { defineProps, defineEmits, toRefs } from "vue";
+import { defineProps, defineEmits, toRefs, ref } from "vue";
+import NoteDialog from "./NoteDialog.vue";
 const props = defineProps({
   note: {
     id: Number,
@@ -8,21 +9,29 @@ const props = defineProps({
   },
 });
 const { note } = toRefs(props);
-console.log(note.value);
+const isEditing = ref(false);
+const isDeleting = ref(false);
 const emit = defineEmits(["edit-note", "delete-note"]);
 
-emit("edit-note", {
-  id: note.value.id,
-  title: note.value.title,
-  content: note.value.content,
-});
 </script>
 <template>
+  <NoteDialog v-if="isEditing" :note="note" @edit-note="(note) => emit('edit-note', note)" @cancel="() => isEditing = false"/>
+  <NoteDialog v-if="isDeleting" :note="note" @delete-note="(note) => emit('delete-note', note)" @cancel="() => isDeleting = false">
+   <div>
+      <h3>Are you sure you want to delete this note?</h3>
+      <p><strong>{{ note.title }}</strong></p>
+      <p>{{ note.content }}</p>
+      <div class="buttons">
+        <button id="delete" @click="$emit('delete-note', note)">Delete</button>
+        <button id="cancel" @click="() => isDeleting = false">Cancel</button>
+      </div>
+   </div>
+  </NoteDialog>
   <div class="note-item">
     <h3>{{ note.title }}</h3>
     <p>{{ note.content }}</p>
     <div class="icons">
-      <span>
+      <span @click="isEditing = true">
         <svg
           fill="#000000"
           viewBox="0 0 24 24"
@@ -35,7 +44,7 @@ emit("edit-note", {
           />
         </svg>
       </span>
-      <span @click="$emit('delete-note', note)">
+      <span @click="isDeleting = true">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M7 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2h4a1 1 0 1 1 0 2h-1.069l-.867 12.142A2 2 0 0 1 17.069 22H6.93a2 2 0 0 1-1.995-1.858L4.07 8H3a1 1 0 0 1 0-2h4V4zm2 2h6V4H9v2zM6.074 8l.857 12H17.07l.857-12H6.074zM10 10a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1z"
@@ -60,5 +69,30 @@ emit("edit-note", {
 
   width: 20px;
   height: 20px;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.buttons button {
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+}
+.buttons button:hover {
+  opacity: 0.9;
+}
+.buttons button:active {
+  transform: scale(0.98);
+}
+.buttons #delete {
+  background-color: #dc3545;
+}
+.buttons #cancel {
+  background-color: #28a745;
 }
 </style>

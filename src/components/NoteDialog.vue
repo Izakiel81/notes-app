@@ -23,6 +23,7 @@ function addChangeNote() {
   });
   newNoteTitle.value = "";
   newNoteContent.value = "";
+  emit("cancel");
 }
 function cancel() {
   emit("cancel");
@@ -33,20 +34,19 @@ function cancel() {
 <template>
   <span class="overlay"></span>
   <div class="dialog">
-    <slot
-      ><form @submit.prevent="addChangeNote" class="note-form">
+      <form @submit.prevent="addChangeNote" class="note-form">
+      <slot>
         <label>Title:</label>
         <input v-model="newNoteTitle" />
 
         <label>Note:</label>
         <textarea v-model="newNoteContent" />
-
         <div class="buttons">
           <button id="add">{{ note.id ? "Edit" : "Add" }} Note</button>
           <button id="cancel" @click="cancel">Cancel</button>
         </div>
+      </slot>
       </form>
-    </slot>
   </div>
 </template>
 <style scoped>
