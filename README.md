@@ -1,24 +1,33 @@
-# notes-app
+📝 Vue Notes App (MVP)
 
-## Project setup
-```
-yarn install
-```
+A minimal notes-taking app built with Vue 3.
+This was my very first Vue project, created as a way to learn the framework and better understand its concepts like components, reactivity, and state management.
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+🚀 Features
 
-### Compiles and minifies for production
-```
-yarn build
-```
+✍️ Create and save notes
 
-### Lints and fixes files
-```
-yarn lint
-```
+🗑️ Delete notes
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+📋 View a list of all saved notes
+
+⚡️ Lightweight, minimal design (MVP focus)
+
+🎯 Purpose
+
+This app is not production-ready — it’s a learning project I built to get hands-on experience with Vue 3.
+The goal was to understand the basics of:
+
+Vue 3 Composition API
+
+Component-based architecture
+
+Props & event handling
+
+Simple state management
+
+🛠️ Tech Stack
+
+Vue 3 (Composition API)
+
+Vite (bundler & dev server)
