@@ -1,10 +1,14 @@
 <script setup>
 import NoteItem from "./NoteItem.vue";
-import { defineProps, toRefs, ref } from "vue";
+import { defineProps, toRefs, ref, watch } from "vue";
 
 const props = defineProps({ notes: Array });
 const { notes } = toRefs(props);
 const localNotes = ref(notes.value);
+
+watch(notes, (newNotes) => {
+  localNotes.value = newNotes;
+});
 
 function deleteNote(id) {
   localNotes.value = localNotes.value.filter((note) => note.id !== id);

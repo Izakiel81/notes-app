@@ -20,7 +20,6 @@ export default {
     function addNote({ title, content }) {
       notes.value.push({ id: notes.value.length + 1, title, content });
       localStorage.setItem("notes", JSON.stringify(notes.value));
-      isAddingNote.value = false;
     }
 
     return { isAddingNote, notes, addNote, toggleAddingNote };
