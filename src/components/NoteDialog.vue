@@ -18,6 +18,11 @@ watch(note, (newVal) => {
   newNoteContent.value = newVal.content ?? "";
 });
 
+function cancel() {
+  emit("cancel");
+  newNoteTitle.value = "";
+  newNoteContent.value = "";
+}
 function addChangeNote() {
   if (!newNoteTitle.value.trim() || !newNoteContent.value.trim()) return;
 
@@ -26,15 +31,9 @@ function addChangeNote() {
     title: newNoteTitle.value,
     content: newNoteContent.value,
   });
-  newNoteTitle.value = "";
-  newNoteContent.value = "";
-  emit("cancel");
+  cancel();
 }
-function cancel() {
-  emit("cancel");
-  newNoteTitle.value = "";
-  newNoteContent.value = "";
-}
+
 </script>
 <template>
   <span class="overlay"></span>
