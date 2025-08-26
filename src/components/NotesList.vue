@@ -1,29 +1,53 @@
 <script setup>
 import NoteItem from "./NoteItem.vue";
-import { defineProps, toRefs, ref, watch } from "vue";
+import NoteDialog from "./NoteDialog.vue";
+import { ref } from "vue";
 
-const props = defineProps({ notes: Array });
-const { notes } = toRefs(props);
-const localNotes = ref(notes.value);
-
-watch(notes, (newNotes) => {
-  localNotes.value = newNotes;
-});
+const isAddingNote = ref(false);
+const notes = ref(JSON.parse(localStorage.getItem("notes")) ?? []);
 
 function deleteNote(id) {
-  localNotes.value = localNotes.value.filter((note) => note.id !== id);
-  localStorage.setItem("notes", JSON.stringify(localNotes.value));
+  if (notes.value.length === 1) {
+    localStorage.removeItem("notes");
+    notes.value = [];
+    return;
+  }
+  notes.value = notes.value.filter((note) => note.id !== id);
+  localStorage.setItem("notes", JSON.stringify(notes.value));
 }
 function editNote(editedNote) {
-  const index = localNotes.value.findIndex((note) => note.id === editedNote.id);
+  const index = notes.value.findIndex((note) => note.id === editedNote.id);
   if (index !== -1) {
-    localNotes.value[index] = editedNote;
-    localStorage.setItem("notes", JSON.stringify(localNotes.value));
+    notes.value[index] = editedNote;
+    localStorage.setItem("notes", JSON.stringify(notes.value));
   }
+}
+function toggleAddingNote() {
+  isAddingNote.value = !isAddingNote.value;
+}
+function addNote({ title, content }) {
+  notes.value.push({ id: notes.value.length + 1, title, content });
+  localStorage.setItem("notes", JSON.stringify(notes.value));
 }
 </script>
 <template>
-  <div v-for="note in localNotes" :key="note.id">
+ <button
+      @click="toggleAddingNote"
+      class="add-note"
+      :class="{ rotated: isAddingNote }"
+    >
+      +
+    </button>
+    <NoteDialog
+      v-if="isAddingNote"
+      @add-note="
+        (note) => {
+          addNote({ title: note.title, content: note.content });
+        }
+      "
+      @cancel="toggleAddingNote"
+    />
+  <div v-for="note in notes" :key="note.id">
     <NoteItem
       :note="note"
       @delete-note="(note) => deleteNote(note.id)"
@@ -40,5 +64,21 @@ function editNote(editedNote) {
   border-radius: 5px;
   background-color: #f9f9f9;
   padding: 10px;
+}
+.rotated {
+  transform: rotate(45deg);
+}
+.add-note {
+  width: 40px;
+  height: 40px;
+  display: block;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
 </style>
