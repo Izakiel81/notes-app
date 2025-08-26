@@ -1,17 +1,22 @@
 <script setup>
-import { ref, toRefs, defineEmits, defineProps } from "vue";
+import { ref, toRefs, defineEmits, defineProps, watch } from "vue";
 const props = defineProps({
   note: {
-    id: Number,
-    title: String,
-    content: String,
-  },
+    type: Object,
+    default: () => ({ id: null, title: "", content: "" })
+  }
 });
-const emit = defineEmits(["add-note", "edit-note", "cancel"]);
 const { note } = toRefs(props);
 
-const newNoteTitle = ref(note.value.title ?? "");
-const newNoteContent = ref(note.value.content ?? "");
+const newNoteTitle = ref(note.value.title);
+const newNoteContent = ref(note.value.content);
+
+const emit = defineEmits(["add-note", "edit-note", "cancel"]);
+
+watch(note, (newVal) => {
+  newNoteTitle.value = newVal.title ?? "";
+  newNoteContent.value = newVal.content ?? "";
+});
 
 function addChangeNote() {
   if (!newNoteTitle.value.trim() || !newNoteContent.value.trim()) return;
