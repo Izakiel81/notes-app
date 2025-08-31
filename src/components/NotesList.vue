@@ -77,4 +77,10 @@ function addNote({ title, content }) {
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
 }
+@media (max-width: 600px) {
+  .add-note {
+    width: 100%;
+    border-radius: 50px;
+  }
+}
 </style>

@@ -69,6 +69,9 @@ const emit = defineEmits(["edit-note", "delete-note"]);
   height: 40px;
   font-size: 1.1rem;
 
+  color: white;
+  border: none;
+
   transition: filter 0.3s ease-in-out;
 }
 .icons button:hover {
@@ -80,15 +83,11 @@ const emit = defineEmits(["edit-note", "delete-note"]);
 
 #edit {
   background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  border-radius: 4px 0 0 4px;
 }
 #delete {
   background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  border-radius: 0 4px 4px 0;
 }
 .buttons {
   display: flex;
@@ -114,5 +113,21 @@ const emit = defineEmits(["edit-note", "delete-note"]);
 }
 .buttons #cancel {
   background-color: #28a745;
+}
+@media (max-width: 600px) {
+  .icons {
+    flex-direction: column;
+    gap: 1px;
+  }
+  #edit,
+  #delete {
+    width: 100%;
+  }
+  #edit {
+    border-radius: 4px 4px 0 0;
+  }
+  #delete {
+    border-radius: 0 0 4px 4px;
+  }
 }
 </style>
