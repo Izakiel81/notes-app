@@ -31,23 +31,24 @@ function addNote({ title, content }) {
 }
 </script>
 <template>
- <button
-      @click="toggleAddingNote"
-      class="add-note"
-      :class="{ rotated: isAddingNote }"
-    >
-      +
-    </button>
-    <NoteDialog
-      v-if="isAddingNote"
-      @add-note="
-        (note) => {
-          addNote({ title: note.title, content: note.content });
-        }
-      "
-      @cancel="toggleAddingNote"
-    />
-  <div v-for="note in notes" :key="note.id">
+  <button
+    @click="toggleAddingNote"
+    class="add-note"
+    :class="{ rotated: isAddingNote }"
+    title="Add Note"
+  >
+    +
+  </button>
+  <NoteDialog
+    v-if="isAddingNote"
+    @add-note="
+      (note) => {
+        addNote({ title: note.title, content: note.content });
+      }
+    "
+    @cancel="toggleAddingNote"
+  />
+  <div class="notes-container" v-for="note in notes" :key="note.id">
     <NoteItem
       :note="note"
       @delete-note="(note) => deleteNote(note.id)"
@@ -57,13 +58,8 @@ function addNote({ title, content }) {
 </template>
 
 <style scoped>
-.note-list {
-  max-width: 600px;
-  margin: 20px auto;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  padding: 10px;
+.notes-container {
+  display: flex;
 }
 .rotated {
   transform: rotate(45deg);
